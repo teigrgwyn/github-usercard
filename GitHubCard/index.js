@@ -1,9 +1,15 @@
+import axios from 'axios'; // was getting undefined error using script-element - installed pkg instead
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-// placeholder
+
+axios.get('https://api.github.com/users/teigrgwyn')
+  .then(res => {
+    createCard(res.data);
+  })
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +34,20 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'https://api.github.com/users/tetondan',
+  'https://api.github.com/users/dustinmyers',
+  'https://api.github.com/users/justsml',
+  'https://api.github.com/users/luishrd',
+  'https://api.github.com/users/bigknell'
+];
+
+followersArray.forEach(url => {
+  axios.get(url)
+    .then(res => {
+      createCard(res.data);
+    })
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +68,52 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function createCard(user) {
+  // create elements
+  const card = document.createElement('div');
+  const img = document.createElement('img');
+  const info = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const loc = document.createElement('p');
+  const profile = document.createElement('p');
+  const profile_info = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  // set values
+  card.classList.add("card");
+  img.setAttribute('src', user.avatar_url);
+  info.classList.add("card-info");
+  name.classList.add("name");
+  name.textContent = user.name;
+  username.classList.add("username");
+  username.textContent = user.login;
+  loc.textContent = `Location: ${user.location}`;
+  profile.textContent = "Profile:";
+  profile_info.setAttribute('href', `${user.html_url}`);
+  followers.textContent = `Followers: ${user.followers}`;
+  following.textContent = `Following: ${user.following}`;
+  bio.textContent = `Bio: ${user.bio}`;
+
+  // assemble hierarchy
+  card.appendChild(img);
+  card.appendChild(info);
+  info.appendChild(name);
+  info.appendChild(username);
+  info.appendChild(loc);
+  info.appendChild(profile)
+  profile.appendChild(profile_info);
+  info.appendChild(followers);
+  info.appendChild(following);
+  info.appendChild(bio);
+
+  document.querySelector('.cards').appendChild(card);
+  console.log(card);
+  return card;
+}
 
 /*
   List of LS Instructors Github username's:

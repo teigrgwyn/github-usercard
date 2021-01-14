@@ -92,8 +92,9 @@ function createCard(user) {
   username.classList.add("username");
   username.textContent = user.login;
   loc.textContent = `Location: ${user.location}`;
-  profile.textContent = "Profile:";
+  profile.textContent = "Profile: ";
   profile_info.setAttribute('href', `${user.html_url}`);
+  profile_info.textContent = user.html_url;
   followers.textContent = `Followers: ${user.followers}`;
   following.textContent = `Following: ${user.following}`;
   bio.textContent = `Bio: ${user.bio}`;
